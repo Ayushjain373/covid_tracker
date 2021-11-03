@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import './style.css';
+import Totalcase from './Totalcase';
 function StatewiseData() {
 
 
@@ -44,6 +45,8 @@ function StatewiseData() {
     }
     return (
         <>
+
+            <Totalcase data={stateData}/>
             <div className="container-fluid mt-5">
 
                 <div>
