@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import './style.css';
 import Totalcase from './Totalcase';
+import Footer from './Footer';
 function StatewiseData() {
 
 
@@ -103,6 +104,8 @@ function StatewiseData() {
                 </div>
             </div>
 
+            
+           <Footer/>
         </>
     )
 }
