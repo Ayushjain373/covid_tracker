@@ -43,7 +43,7 @@ function Totalcase({ data }) {
 
 
 
-                                            <h3 style={{ color: "red" }}>{ele.new_positive}</h3>
+                                            <h3 style={{ color: "red" }}>{ele.positive}</h3>
 
                                         </div>
                                         

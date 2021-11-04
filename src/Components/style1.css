@@ -35,6 +35,10 @@ body {
   transform: skewY(-5deg) scale(1.5);
 }
 
-
-
+@media only screen and (max-width: 600px) {
+ 
+  .card{
+    margin-top: 10px;
+  }
+}
 
