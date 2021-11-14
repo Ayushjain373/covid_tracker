@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useMemo} from 'react';
 import './style.css';
 import Totalcase from './Totalcase';
 import Footer from './Footer';
@@ -9,6 +9,7 @@ function StatewiseData() {
     const [stateData, setstateData] = useState([]);
     const [sortorder, setsortOrder] = useState("asc");
     const [sValue, setsValue] = useState("");
+    
     useEffect(() => {
 
         loadData();
@@ -23,20 +24,29 @@ function StatewiseData() {
         setstateData(actualData)
     }
     const sorting = (col) => {
-        console.log("hello");
+       
 
         if (sortorder === "asc") {
             const sorted = [...stateData].sort((a, b) => {
+                if(col!=keys.state_name)
+                {
+                    return parseInt(a[col])-parseInt(b[col]);
+                }
                 return b[col] < a[col] ? 1 : -1;
             });
-            setstateData(sorted);
+            setstateData([...sorted]);
             setsortOrder("dsc");
         }
         if (sortorder === "dsc") {
             const sorted = [...stateData].sort((a, b) => {
+
+                if(col!=keys.state_name)
+                {
+                    return parseInt(b[col])-parseInt(a[col]);
+                }
                 return a[col] > b[col] ? 1 : -1;
             });
-            setstateData(sorted);
+            setstateData([...sorted]);
             setsortOrder("asc");
         }
     }
@@ -44,6 +54,22 @@ function StatewiseData() {
 
         setsValue("");
     }
+
+    const keys = useMemo(()=>{
+        if(stateData.length)
+        {
+            let temp = Object.keys(stateData[0]).reduce((acc,next)=>{
+                acc[next]=next;
+                return acc;
+                
+            },{});
+            return temp;
+
+        }
+        return {};
+
+    },[stateData])
+    console.log(keys);
     return (
         <>
 
@@ -61,12 +87,12 @@ function StatewiseData() {
                         <thead className="thead-dark">
                             <tr>
                                 <th scope="col">S.No</th>
-                                <th scope="col">State  &nbsp;<i onClick={() => sorting(stateData.state_name)} className="fas fa-sort"></i></th>
-                                <th scope="col">Positive &nbsp;<i onClick={() => sorting(stateData.positive)} className="fas fa-sort"></i></th>
-                                <th scope="col">Death&nbsp;<i onClick={() => sorting(stateData.death)} className="fas fa-sort"></i></th>
-                                <th scope="col">Active&nbsp;<i onClick={() => sorting(stateData.active)} className="fas fa-sort"></i></th>
-                                <th scope="col">New Positive&nbsp;<i onClick={() => sorting(stateData.new_positive)} className="fas fa-sort"></i></th>
-                                <th scope="col">New Death&nbsp;<i onClick={() => sorting(stateData.new_death)} className="fas fa-sort"></i></th>
+                                <th scope="col">State  &nbsp;<i onClick={() => sorting(keys.state_name)} className="fas fa-sort"></i></th>
+                                <th scope="col">Positive &nbsp;<i onClick={() => sorting(keys.positive)} className="fas fa-sort"></i></th>
+                                <th scope="col">Death&nbsp;<i onClick={() => sorting(keys.death)} className="fas fa-sort"></i></th>
+                                <th scope="col">Active&nbsp;<i onClick={() => sorting(keys.active)} className="fas fa-sort"></i></th>
+                                <th scope="col">New Positive&nbsp;<i onClick={() => sorting(keys.new_positive)} className="fas fa-sort"></i></th>
+                                <th scope="col">New Death&nbsp;<i onClick={() => sorting(keys.new_death)} className="fas fa-sort"></i></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -74,7 +100,7 @@ function StatewiseData() {
 
                                 if(sValue==="")
                                 {
-                                    return val;
+                                    return  val;
                                 }
                                 else if(val.state_name.toLowerCase().includes(sValue.toLowerCase()))
                                 {
@@ -85,7 +111,7 @@ function StatewiseData() {
                             }).map((ele, ind) => {
                                 return (
                                     <>
-                                        <tr key={ele.ind}>
+                                        <tr key={ele.state_name}>
                                             <th scope="row">{ind}</th>
                                             <td>{ele.state_name ? ele.state_name : "TotalCase"}</td>
                                             <td>{ele.positive}</td>

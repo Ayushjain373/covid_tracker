@@ -1,5 +1,5 @@
 import React from 'react'
-import "./style1.css"
+import "./style.css"
 function Totalcase({ data }) {
     return (
         <>
